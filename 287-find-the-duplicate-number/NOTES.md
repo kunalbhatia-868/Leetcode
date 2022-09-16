@@ -1,1 +1,2 @@
-​
+*  -1 method to mark what we have visited so if we visit that again just return index.
+*  or use the slow fast approach used in detecting start of cycle used earlier. as there are 2 index that ppoint to same element thus same algo can be used with array.
