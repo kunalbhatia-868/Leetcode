@@ -14,53 +14,58 @@ public:
         if(list1==NULL){
             return list2;
         }
-        else if(list2==NULL){
+        if(list2==NULL){
             return list1;
         }
         
-                
+        ListNode* t1=list1;
+        ListNode* t2=list2;
+        
         ListNode* newHead=NULL;
         ListNode* newTail=NULL;
         
-        while(list1!=nullptr && list2!=nullptr)
+        while(t1!=NULL && t2!=NULL)
         {
-            if(list1->val<list2->val)
+            if(t1->val<t2->val)
             {
                 if(newHead==NULL)
                 {
-                    newHead=list1;
-                    newTail=list1;
+                    newHead=t1;
+                    newTail=t1;
                 }
-                else{
-                    newTail->next=list1;
-                    newTail=list1;
+                else
+                {
+                    newTail->next=t1;
+                    newTail=t1;
                 }
-                list1=list1->next;
+                t1=t1->next;
             }
             else
             {
                 if(newHead==NULL)
                 {
-                    newHead=list2;
-                    newTail=list2;
+                    newHead=t2;
+                    newTail=t2;
                 }
-                else{
-                    newTail->next=list2;
-                    newTail=list2;
+                else
+                {
+                    newTail->next=t2;
+                    newTail=t2;
                 }
-                list2=list2->next;
+                t2=t2->next;
             }
         }
         
-        if(list1!=nullptr)
+        if(t1!=NULL)
         {
-            newTail->next=list1;
+            newTail->next=t1;
         }
         
-        if(list2!=nullptr)
+        if(t2!=NULL)
         {
-            newTail->next=list2;
+            newTail->next=t2;
         }
+        
         return newHead;
     }
 };
