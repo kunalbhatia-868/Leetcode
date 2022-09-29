@@ -11,27 +11,22 @@
  */
 class Solution {
 public:
-    pair<int,int> diameterHeight(TreeNode* root)
+    int dia=0;
+    int height(TreeNode* root)
     {
         if(root==NULL){
-            return {0,-1};
+            return -1;
         }
         
-        pair<int,int> left=diameterHeight(root->left);
-        pair<int,int> right=diameterHeight(root->right);
-
-        int ld=left.first;
-        int rd=right.first;
-        int lh=left.second;
-        int rh=right.second;
-            
-        int fd=max(lh+rh+2,max(ld,rd));
-        int fh=max(lh,rh)+1;
-        pair<int,int> output={fd,fh};
-        return output;
-    }
+        int lh=height(root->left);
+        int rh=height(root->right);
+        
+        dia=max(dia,lh+rh+2);
+        
+        return max(lh,rh)+1;
+    }    
     int diameterOfBinaryTree(TreeNode* root) {
-        pair<int,int> ans=diameterHeight(root);
-        return ans.first;
+        int h=height(root);
+        return dia;
     }
 };
