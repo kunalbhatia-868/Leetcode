@@ -9,27 +9,28 @@
  */
 class Solution {
 public:
-    TreeNode* LCA=NULL;
-    
-    bool helperLca(TreeNode* root, TreeNode* p, TreeNode* q)
-    {
-        if(root==NULL){
-            return false;
-        }
-        
-        bool self=p==root || q==root;
-        bool left=helperLca(root->left,p,q);
-        bool right=helperLca(root->right,p,q);
-        
-        if((self  && left) || (self && right) || (left && right))
-        {
-            LCA=root;
-        }
-        return self || left || right;
-    }
-    
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        bool ans=helperLca(root,p,q);
-        return LCA;    
+        if(root==NULL){
+            return NULL;
+        }   
+        
+        if(root==p || root==q){
+            return root;
+        }
+        
+        TreeNode* left=lowestCommonAncestor(root->left,p,q);
+        TreeNode* right=lowestCommonAncestor(root->right,p,q);
+        
+        if(left && right){
+            return root;
+        }
+        else if(left){
+            return left;
+        }
+        else{
+            return right;
+        }
+        
+        
     }
 };
