@@ -9,51 +9,27 @@
  */
 class Solution {
 public:
-    vector<TreeNode*> traverse(TreeNode* root,int k, vector<TreeNode*>& temp)
+    TreeNode* LCA=NULL;
+    
+    bool helperLca(TreeNode* root, TreeNode* p, TreeNode* q)
     {
-        
-        vector<TreeNode*> output;
         if(root==NULL){
-            return output;
+            return false;
         }
         
-        if(root->val==k){
-            temp.push_back(root);
-            return temp;
-        }
+        bool self=p==root || q==root;
+        bool left=helperLca(root->left,p,q);
+        bool right=helperLca(root->right,p,q);
         
-        temp.push_back(root);
-        vector<TreeNode*> left=traverse(root->left,k,temp);
-        if(left.size()>0){
-            return left;
-        }
-        else
+        if((self  && left) || (self && right) || (left && right))
         {
-            vector<TreeNode*> right=traverse(root->right,k,temp);
-            if(right.size()>0){
-                return right;
-            }
-            else
-            {
-                temp.pop_back();
-                return output;
-            }   
+            LCA=root;
         }
+        return self || left || right;
     }
-    vector<TreeNode*> nodeToRoot(TreeNode* root,int k)
-    {
-        vector<TreeNode*> temp;
-        return traverse(root,k,temp);
-    }
+    
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        vector<TreeNode*> pPath=nodeToRoot(root,p->val);
-        vector<TreeNode*> qPath=nodeToRoot(root,q->val);
-        
-        int i=0;
-        while(i< pPath.size() && i< qPath.size() && pPath[i]==qPath[i]){
-            i++;
-        }
-        
-        return pPath[i-1];
+        bool ans=helperLca(root,p,q);
+        return LCA;    
     }
 };
