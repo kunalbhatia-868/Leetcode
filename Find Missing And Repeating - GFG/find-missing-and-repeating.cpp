@@ -9,30 +9,23 @@ public:
     int *findTwoElement(int *arr, int n) {
         // code here
         int* output=new int[2];
-        
-        // repeating no hare tortoise method
-        int rNumber;
         for(int i=0;i<n;i++)
         {
             if(arr[abs(arr[i])-1]>0){
                 arr[abs(arr[i])-1]=-arr[abs(arr[i])-1];
-            }       
+            }    
             else{
-                rNumber=abs(arr[i]);
+                output[0]=abs(arr[i]);
             }
         }
         
-        // missing No
-        int mNumber=rNumber;
-        for(int i=0;i<n;i++){
-            mNumber^=abs(arr[i]);
-        }
-        for(int i=1;i<=n;i++){
-            mNumber^=i;
+        for(int i=0;i<n;i++)
+        {
+            if(arr[i]>0){
+                output[1]=i+1;
+            }
         }
         
-        output[0]=rNumber;
-        output[1]=mNumber;
         return output;
     }
 };
