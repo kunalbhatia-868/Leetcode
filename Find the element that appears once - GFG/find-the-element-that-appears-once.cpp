@@ -9,12 +9,37 @@ class Solution{
 public:	
 	int search(int A[], int N){
 	    //code
-	    int xorA=0;
-	    for(int i=0;i<N;i++)
-        {
-            xorA^=A[i];
-        }
-	    return xorA;
+	    if(N==1){
+	        return A[0];
+	    }
+	    
+	    if(A[N-1]!=A[N-2]){
+	        return A[N-1];
+	    }
+	    
+	    if(A[0]!=A[1])
+	    {
+	        return A[0];
+	    }
+	    
+	    int i=0;
+	    int j=N-1;
+	    while(i<=j)
+	    {
+	        int mid=i+(j-i)/2;
+	        
+	        if(A[mid]!=A[mid+1] && A[mid]!=A[mid-1]){
+	            return A[mid];
+	        }
+	        
+	        if((mid%2==0 && A[mid]==A[mid+1]) || (mid%2!=0 && A[mid]==A[mid-1]))
+	        {
+	            i=mid+1;
+	        }
+	        else{
+	            j=mid-1;
+	        }
+	    }
 	}
 };
 
