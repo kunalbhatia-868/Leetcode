@@ -1,0 +1,59 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution
+{
+    public:
+    //Function is to check whether two strings are anagram of each other or not.
+    bool isAnagram(string a, string b){
+        
+        // Your code here
+        unordered_map<char,int> map;
+        for(int i=0;i<a.size();i++)
+        {
+            map[a[i]]++;
+        }
+        
+        for(int i=0;i<b.size();i++)
+        {
+            if(!map.count(b[i]))
+            {
+                return false;
+            }
+            else
+            {
+                map[b[i]]--;
+                if(map[b[i]]==0){
+                    map.erase(b[i]);
+                }
+            }
+        }
+        
+        return map.size()==0;
+    }
+
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    
+    int t;
+
+    cin >> t;
+
+    while(t--){
+        string c, d;
+
+        cin >> c >> d;
+        Solution obj;
+        if(obj.isAnagram(c, d)) cout << "YES" << endl;
+        else cout << "NO" << endl;
+    }
+
+}
+
+// } Driver Code Ends
