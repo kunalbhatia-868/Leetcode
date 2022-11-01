@@ -2,7 +2,7 @@ class Solution {
 public:
     int searchInsert(vector<int>& nums, int target) {
         
-        int pos=-1;
+        int pos=nums.size();
         int l=0;
         int h=nums.size()-1;
         while(l<=h)
@@ -21,6 +21,6 @@ public:
                 h=m-1;
             }
         }
-        return pos==-1?nums.size():pos;
+        return pos;
     }
 };
