@@ -4,77 +4,73 @@ using namespace std;
 
 // } Driver Code Ends
 
-int lowerBound(int nums[],int n, int target)
+int lowerBound(int arr[],int n,int x)
+{
+    int l=0;
+    int h=n-1;
+    
+    while(l<=h)
     {
-        int start=0;
-        int end=n-1;
+        int m=l+(h-l)/2;
         
-        
-        while(start<=end)
+        if(arr[m]<x)
         {
-            int mid=start+(end-start)/2;
-            
-            if(nums[mid]<target)
-            {
-                start=mid+1;
-            }
-            else{
-                end=mid-1;
-            }
-        }
-        
-        if(nums[end+1]==target)
-        {
-            return end+1;
+            l=m+1;        
         }
         else
         {
-            return -1;
+            h=m-1;
         }
     }
     
-    int upperBound(int nums[],int n, int target)
+    if(arr[h+1]==x){
+        return h+1;
+    }
+    else{
+        return -1;
+    }
+}
+
+int upperBound(int arr[],int n,int x)
+{
+    int l=0;
+    int h=n-1;
+    
+    while(l<=h)
     {
-        int start=0;
-        int end=n-1;
+        int m=l+(h-l)/2;
         
-        
-        while(start<=end)
+        if(arr[m]<=x)
         {
-            int mid=start+(end-start)/2;
-            
-            if(nums[mid]<=target)
-            {
-                start=mid+1;
-            }
-            else{
-                end=mid-1;
-            }
-        }
-        
-        
-        if(nums[start-1]==target)
-        {
-            return start-1;
+            l=m+1;        
         }
         else
         {
-            return -1;
+            h=m-1;
         }
     }
+    
+    if(arr[h]==x){
+        return h;
+    }
+    else{
+        return -1;
+    }
+}
+
+
 vector<int> find(int arr[], int n , int x )
 {
     // code here
-    int target=x;
-    vector<int> range(2,-1);
-    if(n==0 || arr[n-1]<target ||arr[0]>target){
-        return range;
+    vector<int> output={-1,-1};
+    if(arr[0]>x || arr[n-1]<x || n==0)
+    {
+        return output;
     }
-        
-    range[0]=lowerBound(arr,n,target);
-    range[1]=upperBound(arr,n,target);
-        
-    return range;
+    
+    output[0]=lowerBound(arr,n,x);
+    output[1]=upperBound(arr,n,x);
+    return output;
     
 }
 
