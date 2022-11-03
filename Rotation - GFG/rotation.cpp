@@ -10,18 +10,39 @@ class Solution{
 public:	
 	int findKRotation(int arr[], int n) {
 	    // code here
-	    int r=0;
-	    for(int i=0;i<n;i++)
-	    {
-	        r++;
-	        if(i!=n && arr[i]>arr[i+1])
-	        {
-	            
-	            break;
-	        }
-	        
-	    }
-	    return r%n;
+	    //finding min element index
+	    if(n==1){
+            return 0;
+        } 
+	    
+	    int start=0;
+        int end=n-1;
+        
+        
+        while(start<=end)
+        {
+            int mid=start+(end-start)/2;
+            
+            if(arr[start]<arr[end])     // already sorted
+            {
+                return start;
+            }
+            
+            if(arr[mid]<arr[(mid+1)%n] && arr[mid]<arr[(mid+n-1)%n])
+            {
+                return mid;
+            }
+            
+            if(arr[start]<=arr[mid])     //left sorted 
+            {
+                start=mid+1;
+            }
+            else
+            {
+                end=mid-1;
+            }
+        }
+        return -1;
 	}
 
 };
