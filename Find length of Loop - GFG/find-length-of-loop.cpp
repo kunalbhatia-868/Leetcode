@@ -77,9 +77,9 @@ struct Node {
 int countNodesinLoop(struct Node *head)
 {
     // Code here
-    if(head==NULL || head->next==NULL){
-        return 0;
-    }
+    // if(head==NULL || head->next==NULL){
+    //     return 0;
+    // }
     
     Node* slow=head;
     Node* fast=head;
