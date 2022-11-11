@@ -5,17 +5,21 @@ public:
             return 1;
         }
         
-        double ans=1;
-        if(n%2 != 0){
-          if(n>0){
-              ans*=x;
-          }
-          else{
-              ans*=(1/x);
-          }
+        double temp=1;
+        if(n%2!=0)
+        {
+            if(n>0)
+            {
+                temp*=x;        
+            }
+            else
+            {
+                temp*=(1/x);
+            }
         }
-        double temp= myPow(x,n/2);
-        ans*=(temp*temp);
-        return ans;
+        
+        double rest=myPow(x,n/2);
+        temp=temp*rest*rest;
+        return temp;
     }
 };
