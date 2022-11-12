@@ -10,15 +10,13 @@ public:
         }
         
         
-        combinationSum(candidates,target,index+1,output,temp);
-        int curr=candidates[index];
-        int factor=target/curr;
-        for(int i=0;i<factor;i++)
-        {        
-            target-=curr;
-            temp.push_back(curr);
-            combinationSum(candidates,target,index+1,output,temp);
+        if(candidates[index]<=target){
+            temp.push_back(candidates[index]);
+            combinationSum(candidates,target-candidates[index],index,output,temp);    
+            temp.pop_back();
         }
+        combinationSum(candidates,target,index+1,output,temp);
+        
         
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
