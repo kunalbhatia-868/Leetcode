@@ -6,54 +6,37 @@ using namespace std;
 class Solution {
   public:
     // Function to detect cycle in an undirected graph.
-    bool checkCycle(vector<int> adj[],int node,int V,int vis[])
-    {
-        vis[node]=1;
-        queue<pair<int,int>> q;
-        q.push({node,-1});
+    bool checkCycle(vector<int> adj[],int node,int parent,int vis[]){
         
-        while(!q.empty()){
-            
-            int frontNode=q.front().first;
-            int prevNode=q.front().second;
-            q.pop();
-            
-            for(int i=0;i<adj[frontNode].size();i++){
-                int nbr=adj[frontNode][i];
-                if(nbr!=prevNode){
-                    if(vis[nbr]){
-                        return true;
-                    }
-                    else{
-                        q.push({nbr,frontNode});
-                        vis[nbr]=true;
-                    }
+        vis[node]=1;
+        
+        for(auto nbr:adj[node]){
+            if(!vis[nbr]){
+                if(checkCycle(adj,nbr,node,vis)){
+                    return true;
                 }
-                // if(!vis[nbr]){
-                //     q.push({nbr,frontNode});
-                //     vis[nbr]=1;
-                // }
-                // else if(nbr!=prevNode){
-                //     return true;
-                // }
-                
+            }
+            else if(nbr!=parent){
+                return true;
             }
         }
-                
         return false;
+        
     }
+    
     bool isCycle(int V, vector<int> adj[]) {
         // Code here
         int vis[V]={0};
         for(int i=0;i<V;i++){
             if(!vis[i]){
-                if(checkCycle(adj,i,V,vis)){
+                if(checkCycle(adj,i,-1,vis)){
                     return true;
                 }
-            }
+            }   
         }
         return false;
     }
+
 };
 
 //{ Driver Code Starts.
