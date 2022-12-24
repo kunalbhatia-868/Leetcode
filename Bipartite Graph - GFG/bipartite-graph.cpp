@@ -6,32 +6,22 @@ using namespace std;
 class Solution {
 public:
 
-    bool isBipartiteComponent(vector<int>adj[],int src,vector<int>& color)
-    {
-        queue<int> q;
+    bool dfs(vector<int> graph[],int src,vector<int>& color){
+        int nbrColor=color[src]==0?1:0;
         
-        color[src]=0;     // starting node as first color
-        q.push(src);      // add start node to queue
-
-        while(!q.empty())
-        {
-            int front=q.front();
-            q.pop();
-            
-            int nbrColor=color[front]==0?1:0;
-            for(int nbr:adj[front]){
-                if(color[nbr]==-1){         //nbr is colorless
-                    color[nbr]=nbrColor;    //color is with opp color and push in q
-                    q.push(nbr);
-                    
-                }
-                else if(color[nbr]==color[front]){            //same color as adjacent
+        for(int nbr:graph[src]){
+            if(color[nbr]==-1){                 //nbr is colorless
+                color[nbr]=nbrColor;            //color is with opp color and push in q
+                if(dfs(graph,nbr,color)==false){
                     return false;
                 }
-                //else if nbr is colored with color is diff to us we are fine with it
             }
+            else if(color[nbr]==color[src]){            //same color as adjacent
+                return false;
+            }
+            //else if nbr is colored with color is diff to us we are fine with it
         }
-        return true;
+        return true;       
     }   
     
 	bool isBipartite(int V, vector<int>adj[]){
@@ -40,7 +30,7 @@ public:
         
         for(int i=0;i<V;i++){
             if(color[i]==-1){
-                if(isBipartiteComponent(adj,i,color)==false){       // if any comp ans is false
+                if(dfs(adj,i,color)==false){       // if any comp ans is false
                     return false;
                 }
             }
