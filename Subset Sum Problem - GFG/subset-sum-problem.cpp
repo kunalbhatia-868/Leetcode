@@ -9,28 +9,7 @@ using namespace std;
 
 class Solution{   
 public:
-    bool isSubsetSum(vector<int>arr,int n, int sum,vector<vector<int>>& dp){
-        // code here 
-        if(sum==0){
-            return true;
-        }
-        else if(n==0){
-            return false;
-        }
-        
-        if(dp[n][sum]!=-1){
-            return dp[n][sum];
-        }
-        
-        if(arr[n-1]<=sum){      // less than equal to total sum
-            dp[n][sum]=isSubsetSum(arr,n-1,sum-arr[n-1],dp) || isSubsetSum(arr,n-1,sum,dp);
-        }
-        else{                   
-            dp[n][sum]=isSubsetSum(arr,n-1,sum,dp);
-        }
-        return dp[n][sum];
-        
-    }
+    
     bool isSubsetSum(vector<int>arr, int sum){
         // code here 
         int n=arr.size();
