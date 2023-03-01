@@ -6,39 +6,41 @@ using namespace std;
 class Solution {
   public:
     // Function to detect cycle in a directed graph.
-    bool dfs(vector<int> adj[],int src,int vis[],int pathVis[]) {
-        vis[src]=1;
-        pathVis[src]=1;
-        
-        for(int nbr:adj[src]){
-            if(!vis[nbr]){
-                if(dfs(adj,nbr,vis,pathVis)==true){       // cycle found in this nbr
-                    return true;
-                }
-            }
-            else if(pathVis[nbr]){
-                return true;
-            }
-        }
-        
-        pathVis[src]=0;                     // this path checked not found check another one
-        return false;
-        
-    }
     bool isCyclic(int V, vector<int> adj[]) {
         // code here
-        int vis[V]={0};
-        int pathVis[V]={0};
+        // using KAHN ALGORITHM
         
-        for(int i=0;i<V;i++){
-            if(!vis[i]){
-                if(dfs(adj,i,vis,pathVis)==true){       // cycle found in this comp
-                    return true;
-                }
-            }
-        }
-        
-        return false;
+        int indeg[V]={0};
+	    for(int i=0;i<V;i++)
+	    {
+	        for(auto nbr:adj[i]){
+	            indeg[nbr]++;
+	        }
+	    }
+	    
+	    queue<int> q;
+	    for(int i=0;i<V;i++){
+	        if(indeg[i]==0){
+	            q.push(i);
+	        }
+	    }
+	    
+	    int ct=0;
+	    while(!q.empty())
+	    {
+	        int front=q.front();
+	        q.pop();
+	        ct++;
+	        for(auto nbr:adj[front]){
+	            indeg[nbr]--;
+	            if(indeg[nbr]==0){
+	                q.push(nbr);
+	            }
+	        }
+	        
+	    }
+	    
+	    return ct!=V;       // ct==v means no cycle ans ct!=v means cycle present
     }
 };
 
