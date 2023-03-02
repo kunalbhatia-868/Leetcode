@@ -10,50 +10,57 @@ using namespace std;
 
 class Solution {
   public:
-    // detect cycle in a directed graph
-    
-    bool dfs(vector<int> adj[],int src,int vis[],int pathVis[],int safeNodes[]){
-        vis[src]=1;
-        pathVis[src]=1;
-        
-        for(int nbr:adj[src])
-        {
-            if(!vis[nbr]){
-                if(dfs(adj,nbr,vis,pathVis,safeNodes)==true){
-                    safeNodes[src]=0;
-                    return true;
-                }
-            }
-            else if(pathVis[nbr]){
-                safeNodes[src]=0;
-                return true;
-            }
-        }
-        
-        safeNodes[src]=1;
-        pathVis[src]=0;
-        return false;
-    }
-    
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
         // code here
-        int vis[V]={0};
-        int pathVis[V]={0};
-        int safeNodes[V]={0};
+        //you can reverse all edges by making revAdjand use toposort bfs
         
-        for(int i=0;i<V;i++){
-            if(!vis[i]){
-                dfs(adj,i,vis,pathVis,safeNodes);
+        vector<int> revAdj[V];
+        for(int i=0;i<V;i++)
+        {
+            for(int nbr: adj[i])
+            {
+                revAdj[nbr].push_back(i);
+            }
+        }
+
+        
+        vector<int> inDeg(V,0);
+        for(int i=0;i<V;i++)
+        {
+            for(int nbr:revAdj[i]){
+                inDeg[nbr]++;
             }
         }
         
-        vector<int> output;
+        queue<int> q;
         for(int i=0;i<V;i++){
-            if(safeNodes[i]==1){
-                output.push_back(i);
+            if(inDeg[i]==0){
+                q.push(i);
             }
         }
-        return output;
+        
+        
+        // adding all nodes with indeg 0 as they are terminal nodes and thus safe (as indeg=0 means outdeg=0)
+        // after the reversal of edges
+        // using this while loop rmove them and add their nbr one by one if their indeg is 0
+        vector<int> safeNode;
+        
+        while(!q.empty())
+        {
+            int fr=q.front();
+            q.pop();
+            
+            for(auto nbr:revAdj[fr]){
+                inDeg[nbr]--;
+                if(inDeg[nbr]==0){
+                    q.push(nbr);
+                }
+            }
+            
+            safeNode.push_back(fr);
+        }
+        sort(safeNode.begin(),safeNode.end());
+        return safeNode;
     }
 };
 
