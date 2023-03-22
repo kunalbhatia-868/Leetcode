@@ -1,23 +1,44 @@
 class MyHashSet {
 public:
-    vector<int> mp;
+    vector<list<int>> mp;
     int size;
     MyHashSet() {
-        size=1e6+1;
+        size=100;
         mp.resize(size);
     }
     
+    int hash(int key){
+        return key%size;
+    }
+    
+    list<int> :: iterator search(int key){
+        int idx=hash(key);
+        return find(mp[idx].begin(),mp[idx].end(),key);
+    }
+    
     void add(int key) {
-        mp[key]=1;
+        if(contains(key))return;
+        
+        int idx=hash(key);
+        mp[idx].push_back(key);
     }
     
     void remove(int key) {
-        mp[key]=0;
+        if(!contains(key))return;
+        
+        int idx=hash(key);
+        mp[idx].erase(search(key));
     }
     
     bool contains(int key) {
-        return mp[key]==1;
+        int idx=hash(key);
+        list<int> :: iterator it=search(key);
+        if(it!=mp[idx].end()){
+            return true;
+        }
+        return false;
     }
+    
 };
 
 /**
