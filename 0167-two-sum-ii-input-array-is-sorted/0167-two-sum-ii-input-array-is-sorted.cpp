@@ -1,14 +1,23 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
-        unordered_map<int,int> numMap;
-        for(int i=0;i<numbers.size();i++){
-            int x=target-numbers[i];
-            if(numMap.count(x)){
-                return {numMap[x]+1,i+1};
+        //ideas is basic binary search as it is already sorted 
+        //
+        
+        int i=0;
+        int j=numbers.size()-1;
+        while(i<j){
+            int sum=numbers[i]+numbers[j];
+            if(sum==target){
+                return {i+1,j+1};           // indexed by 1 not 0 we are solving as 0 based only
             }
-            numMap[numbers[i]]=i;
+            else if(sum>target){
+                j--;
+            }
+            else{
+                i++;
+            }
         }
-        return {};
+        return {-1,-1};
     }
 };
