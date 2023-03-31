@@ -1,36 +1,28 @@
 class Solution {
 public:
-    void swap(int* a,int* b)
-    {
-        int temp=*a;
-        *a=*b;
-        *b=temp;
-    }
     
-    void transpose(vector<vector<int>>& matrix)
-    {  
+    void rotate(vector<vector<int>>& matrix) {
+        // rotate = transpose(row to cols and vice verse) + mirror your matrix(col 1,2 as col 3,4)
+        
         int n=matrix.size();
-        for(int i=1;i<n;i++)
-        {
-            for(int j=0;j<i;j++)
-            {
-                swap(&matrix[i][j],&matrix[j][i]);
-            }      
-        }
-    }
-    void swapLR(vector<vector<int>>& matrix)
-    {
-        int n=matrix.size();
+        
+        // transpose
         for(int i=0;i<n;i++)
         {
-            for(int j=0;j<n/2;j++)
-            {
-                swap(&matrix[i][j],&matrix[i][n-j-1]);
-            }    
+            for(int j=0;j<=i;j++){
+                int temp=matrix[i][j];
+                matrix[i][j]=matrix[j][i];
+                matrix[j][i]=temp;
+            }
         }
-    }
-    void rotate(vector<vector<int>>& matrix) {
-        transpose(matrix);
-        swapLR(matrix);
+        
+        // mirror col 
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n/2;j++){
+                int temp=matrix[i][j];
+                matrix[i][j]=matrix[i][n-j-1];
+                matrix[i][n-j-1]=temp;
+            }
+        }
     }
 };
