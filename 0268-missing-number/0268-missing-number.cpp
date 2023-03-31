@@ -1,15 +1,15 @@
 class Solution {
 public:
     int missingNumber(vector<int>& nums) {
-        int numsXor=0,totalXor=0;
-        for(int i=0;i<nums.size();i++)
-        {
-            numsXor^=nums[i];
+        int totalBit=0;
+        for(int i=1;i<=nums.size();i++){
+            totalBit^=i;
         }
-        for(int i=0;i<=nums.size();i++)
-        {
-            numsXor^=i;
+        
+        for(int i=0;i<nums.size();i++){
+            totalBit^=nums[i];
         }
-        return numsXor^totalXor;
+        
+        return totalBit;
     }
 };
