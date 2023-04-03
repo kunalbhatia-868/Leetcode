@@ -1,45 +1,40 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int m=matrix.size();
+        int n=matrix[0].size();
+        
+        int sr=0,sc=0;
+        int er=m-1,ec=n-1;
+        int count=0;
+        int k=n*m;
+        
         vector<int> output;
-        int matSize=matrix.size()*matrix[0].size();
-        
-        int r=0,c=0,k=0;
-        int rm=matrix.size()-1,cm=matrix[0].size()-1;
-        
-        while(k<matSize)
+        while(sr<=er && sc<=ec)
         {
-            for(int i=c;i<=cm && k<matSize;i++)
+            for(int i=sc;i<=ec && count<k;i++)
             {
-                output.push_back(matrix[r][i]);
-                k++;
-                
+                output.push_back(matrix[sr][i]);
+                count++;
             }
-            r++;
-            for(int i=r;i<=rm && k<matSize;i++)
+            sr++;
+            for(int i=sr;i<=er && count<k;i++){
+                output.push_back(matrix[i][ec]);
+                count++;
+            }
+            ec--;
+            for(int i=ec;i>=sc && count<k;i--)
             {
-                output.push_back(matrix[i][cm]);
-                k++;
-                
+                output.push_back(matrix[er][i]);
+                count++;
             }
-            cm--;
-        
-            for(int i=cm;i>=c && k<matSize;i--)
-            {
-                output.push_back(matrix[rm][i]);
-                k++;
-                
+            er--;
+            for(int i=er;i>=sr && count<k;i--){
+                output.push_back(matrix[i][sc]);
+                count++;
             }
-            rm--;
-            
-            for(int i=rm;i>=r && k<matSize;i--)
-            {
-                output.push_back(matrix[i][c]);
-            k++;
-            }
-            c++;   
+            sc++; 
         }
-        
         return output;
     }
 };
