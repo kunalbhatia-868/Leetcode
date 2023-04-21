@@ -9,23 +9,24 @@ class Solution{
     int lenOfLongSubarr(int A[],  int N, int K) 
     { 
         // Complete the function
-        int maxLen=0;
-        unordered_map<int,int> numMap;
-        numMap[0]=-1;
+        unordered_map<int,int> nMap;
+        nMap[0]=-1;
         
+        int maxLen=0;
         int currSum=0;
         for(int i=0;i<N;i++)
         {
             currSum+=A[i];
-            if(!numMap.count(currSum)){
-                numMap[currSum]=i;
+            
+            if(nMap.count(currSum-K))
+            {
+                maxLen=max(maxLen,i-nMap[currSum-K]);
             }
             
-            if(numMap.count(currSum-K)){
-                maxLen=max(maxLen,i-numMap[currSum-K]);
+            if(!nMap.count(currSum)){
+                nMap[currSum]=i;
             }
         }
-        
         return maxLen;
     } 
 
