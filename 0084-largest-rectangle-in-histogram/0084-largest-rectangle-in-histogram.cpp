@@ -1,76 +1,68 @@
 class Solution {
 public:
-    vector<int> NearestShorterLeft(vector<int>& heights){
-        vector<int> output;
+    vector<int> SmallerRightElement(vector<int>& nums)
+    {
+        int n=nums.size();
+        vector<int> output(n);
         stack<int> st;
-        for(int i=0;i<heights.size();i++)
+        st.push(n-1);
+        output[n-1]=n;
+        
+        for(int i=n-2;i>=0;i--)
         {
-            int curr=heights[i];
-            if(st.size()==0){
-                output.push_back(-1);
+            while(!st.empty() && nums[i]<=nums[st.top()])
+            {
+                st.pop();
+            } 
+            
+            if(st.empty()){
+                output[i]=n;
             }
-            else if(heights[st.top()]>=curr){
-                while(!st.empty() && heights[st.top()]>=curr){
-                    st.pop();
-                }
-                
-                if(st.size()==0){
-                    output.push_back(-1);
-                }
-                else{
-                    output.push_back(st.top());
-                }
-            }
-            else if(heights[st.top()]<curr){
-                output.push_back(st.top());
-            }
-            st.push(i);
-        }
-        return output;
-    }
-    vector<int> NearestShorterRight(vector<int>& heights){
-        vector<int> output(heights.size());
-        stack<int> st;
-        for(int i=heights.size()-1;i>=0;i--)
-        {
-            int curr=heights[i];
-            if(st.size()==0){
-                output[i]=heights.size();
-            }
-            else if(heights[st.top()]>=curr){
-                while(!st.empty() && heights[st.top()]>=curr){
-                    st.pop();
-                }
-                
-                if(st.size()==0){
-                    output[i]=heights.size();
-                }
-                else{
-                    output[i]=st.top();
-                }
-            }
-            else if(heights[st.top()]<curr){
+            else{
                 output[i]=st.top();
             }
             st.push(i);
         }
+        
         return output;
     }
-    int largestRectangleArea(vector<int>& heights) {
-        vector<int> nsr=NearestShorterRight(heights);
-        vector<int> nsl=NearestShorterLeft(heights);
+    vector<int> SmallerLeftElement(vector<int>& nums)
+    {
+        int n=nums.size();
+        vector<int> output(n);
+        stack<int> st;
+        st.push(0);
+        output[0]=-1;
         
-        int maxArea=INT32_MIN;
-        
-        for(int i=0;i<heights.size();i++)
+        for(int i=1;i<n;i++)
         {
+            while(!st.empty() && nums[i]<=nums[st.top()])
+            {
+                st.pop();
+            } 
             
-            int width=nsr[i]-nsl[i]-1;
-            int area=heights[i]*width;
-            
-            maxArea=max(maxArea,area);
+            if(st.empty()){
+                output[i]=-1;
+            }
+            else{
+                output[i]=st.top();
+            }
+            st.push(i);
         }
         
+        return output;
+    }
+
+    int largestRectangleArea(vector<int>& heights) {
+        vector<int> gre=SmallerRightElement(heights);
+        vector<int> gle=SmallerLeftElement(heights);
+        
+        int maxArea=INT_MIN;
+        for(int i=0;i<gle.size();i++){
+            int area=(gre[i]-gle[i]-1)*heights[i];
+            // area of current index height
+            maxArea=max(maxArea,area);
+        }
         return maxArea;
     }
 };
