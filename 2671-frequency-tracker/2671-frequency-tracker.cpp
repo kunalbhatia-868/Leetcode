@@ -29,21 +29,17 @@ public:
             return ;
         }
         else{
-            freq[mp[number]]-=1;
-            if(freq[mp[number]]==0){
-                freq.erase(mp[number]);
-            }
             mp[number]-=1;
+            freq[mp[number]+1]-=1;
+            if(freq[mp[number]+1]==0){
+                freq.erase(mp[number]+1);
+            }
+            freq[mp[number]]+=1;
             if(mp[number]==0){
                 mp.erase(number);
             }
-            
-            if(mp.count(number)>0){ // Check if the new frequency exists in the freq map
-                freq[mp[number]]+=1; // Increment its frequency count
-            }   
-            
-            
         }
+
     }
     
     bool hasFrequency(int frequency) {
