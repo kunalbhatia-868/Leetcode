@@ -6,29 +6,23 @@ public:
         for(int i=0;i<nums.size();i++){
             nMap[nums[i]]++;
         }
-        
+
         while(nMap.size()>0)
         {
             vector<int> temp;
-            vector<int> eleToDel;
-            
-            for(auto num:nMap){
-                int n=num.first;
-                temp.push_back(n);
+            for(auto it=nMap.begin();it!=nMap.end();it++){
+                temp.push_back(it->first);
                 
-                nMap[n]--;
-                if(nMap[n]==0){
-                    eleToDel.push_back(n);
+            }
+            for(int i=0;i<temp.size();i++){
+                nMap[temp[i]]-=1;
+                if(nMap[temp[i]]==0){
+                    nMap.erase(temp[i]);
                 }
             }
-            
-            for(auto ele:eleToDel){
-                nMap.erase(ele);
-            }
-            
             output.push_back(temp);
         }
-        
+                
         return output;
     }
 };
